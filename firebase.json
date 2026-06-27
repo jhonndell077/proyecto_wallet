@@ -3,6 +3,7 @@
     "source": "functions"
   },
   "hosting": {
+    "site": "incomewallet",
     "public": "Conexion",
     "ignore": [
       ".git/**",

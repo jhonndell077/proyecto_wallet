@@ -44,11 +44,12 @@ body {
 }
 
 .global-shortcut {
-  display: block;
+  display: grid;
+  gap: 4px;
   padding: 14px 16px;
   border-radius: 16px;
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   font-weight: 800;
   color: var(--text);
   background: rgba(255, 255, 255, 0.92);
@@ -61,6 +62,27 @@ body {
 .global-shortcut.primary {
   color: white;
   background: linear-gradient(135deg, #ef476f, #c44569);
+}
+
+.shortcut-label,
+.shortcut-hint {
+  display: block;
+}
+
+.shortcut-label {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.shortcut-hint {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(20, 33, 61, 0.62);
+}
+
+.global-shortcut.primary .shortcut-hint {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .global-shortcut:hover,
