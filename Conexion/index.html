@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income Wallet | Ingresos y Gastos</title>
+  <meta name="theme-color" content="#0d1b2a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="global-shortcuts" aria-label="Accesos rapidos de Income Wallet">
+    <a class="global-shortcut primary" href="./index.html">Abrir Income Wallet</a>
+    <a class="global-shortcut" href="../GUIA_COMPLETA_INCOME_WALLET.html">Abrir guia completa</a>
+    <a class="global-shortcut" href="../TUTORIAL_AUDIOVISUAL_INCOME_WALLET.html">Abrir tutorial</a>
+  </div>
+
+  <section class="auth-shell" id="auth-shell">
+    <div class="auth-ambient" aria-hidden="true">
+      <span class="auth-orb orb-a"></span>
+      <span class="auth-orb orb-b"></span>
+      <span class="auth-orb orb-c"></span>
+      <span class="auth-grid"></span>
+    </div>
+
+    <div class="auth-layout">
+
+      <article class="auth-showcase">
+        <p class="eyebrow auth-kicker">Energia del sistema</p>
+        <h1>Income Wallet</h1>
+        <p class="auth-lead">Un acceso que transmite control, ritmo y claridad desde el primer segundo.</p>
+
+        <div class="auth-live-card">
+          <div>
+            <p class="eyebrow">Estado</p>
+            <strong>Panel listo para operar</strong>
+          </div>
+          <span class="auth-live-pulse">Activo</span>
+        </div>
+
+        <div class="auth-metric-row">
+          <article class="auth-metric-card">
+            <span>Respuesta</span>
+            <strong>Rapida</strong>
+          </article>
+          <article class="auth-metric-card">
+            <span>Ambiente</span>
+            <strong>Positivo</strong>
+          </article>
+          <article class="auth-metric-card">
+            <span>Flujo</span>
+            <strong>En marcha</strong>
+          </article>
+        </div>
+
+        <div class="auth-energy-bar" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </article>
+    <div class="auth-card">
+
+      <div class="auth-card-glow" aria-hidden="true"></div>
+      <div class="auth-brand">
+        <div class="brand-text">
+          <p class="eyebrow">Acceso seguro</p>
+          <h2>Entra al centro financiero</h2>
+        </div>
+      </div>
+
+      <div class="auth-copy">
+        <p class="eyebrow">Sistema en operacion</p>
+        <strong>Control centralizado <span>Registra ingresos, gastos y cuentas por cobrar desde un solo panel.</span></strong>
+        <strong>Seguimiento inteligente <span>Visualiza tu flujo, analiza margenes y consulta el historial completo en tiempo real.</span></strong>
+        <p>Accede con una cuenta autorizada para administrar operaciones, monitorear resultados y mantener el movimiento financiero del negocio bajo control.</p>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <label class="auth-field">
+          <span>Usuario</span>
+          <input type="text" id="login-username" autocomplete="username" placeholder="Ingresa tu usuario" required>
+        </label>
+
+        <label class="auth-field">
+          <span>Contrasena</span>
+          <input type="password" id="login-password" autocomplete="current-password" placeholder="Ingresa tu clave" required>
+        </label>
+
+        <p id="login-feedback" class="form-feedback" hidden></p>
+        <button type="submit" class="primary-button auth-submit">Entrar al panel</button>
+      </form>
+    </div>
+    </div>
+  </section>
+
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-text">
+          <h1>Income Wallet</h1>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-link is-active" data-view-target="dashboard">Resumen</button>
+        <button class="nav-link" data-view-target="registro">Nuevo movimiento</button>
+        <button class="nav-link" data-view-target="cuentas">Por cobrar</button>
+        <button class="nav-link" data-view-target="historial">Historial</button>
+        <button class="nav-link" data-view-target="margenes">Margenes</button>
+        <button class="nav-link" data-view-target="configuracion">Configuracion</button>
+        <button class="nav-link" data-view-target="admin" id="admin-nav-button" hidden>Administrador</button>
+      </nav>
+
+      <section class="sidebar-card">
+        <p class="eyebrow">Balance actual</p>
+        <strong id="sidebar-balance">$0.00</strong>
+        <span id="sidebar-balance-caption">Sin movimientos registrados</span>
+      </section>
+
+      <section class="sidebar-card">
+        <p class="eyebrow">Cobros pendientes</p>
+        <strong id="sidebar-cuentas">$0.00</strong>
+        <span id="sidebar-cuentas-caption">0 clientes pendientes</span>
+      </section>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Panel financiero</p>
+          <h2>Ingresos, gastos y seguimiento de cobros</h2>
+        </div>
+        <div class="topbar-actions">
+          <div class="session-pill">
+            <span id="session-user-name">Sin sesion</span>
+            <strong id="session-user-role">Invitado</strong>
+          </div>
+          <button class="ghost-button" id="logout-button" type="button">Cerrar sesion</button>
+        </div>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Vista general</p>
+          <h3>Una operacion simple, rapida y clara</h3>
+          <p class="hero-copy">Registra ventas, egresos y cuentas por cobrar desde un solo lugar. La app guarda los datos en este navegador y actualiza el resumen automaticamente.</p>
+        </div>
+        <div class="hero-pills">
+          <span>Persistencia local</span>
+          <span>Editar registros</span>
+          <span>Responsive</span>
+          <span>Alertas de cobro</span>
+        </div>
+      </section>
+
+      <section class="view is-active" id="dashboard">
+        <div class="stats-grid">
+          <article class="stat-card income stat-card-action" data-view-jump="historial" data-history-filter="ingreso" role="button" tabindex="0" aria-label="Ir al historial de ingresos">
+            <p>Ingresos cobrados</p>
+            <strong id="kpi-ingresos">$0.00</strong>
+            <span id="kpi-ingresos-meta">0 movimientos</span>
+          </article>
+          <article class="stat-card expense stat-card-action" data-view-jump="historial" data-history-filter="gasto" role="button" tabindex="0" aria-label="Ir al historial de gastos">
+            <p>Gastos</p>
+            <strong id="kpi-gastos">$0.00</strong>
+            <span id="kpi-gastos-meta">0 movimientos</span>
+          </article>
+          <article class="stat-card receivable stat-card-action" data-view-jump="cuentas" role="button" tabindex="0" aria-label="Ir a cuentas por cobrar">
+            <p>Por cobrar</p>
+            <strong id="kpi-por-cobrar">$0.00</strong>
+            <span id="kpi-por-cobrar-meta">0 pendientes</span>
+          </article>
+          <article class="stat-card balance stat-card-action" data-view-jump="historial" data-history-filter="todos" role="button" tabindex="0" aria-label="Ir al historial completo">
+            <p>Balance neto</p>
+            <strong id="kpi-balance">$0.00</strong>
+            <span id="kpi-balance-meta">Ingresos cobrados - gastos</span>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Ultimos 7 dias</p>
+                <h3>Flujo diario</h3>
+              </div>
+            </div>
+            <div class="chart-legend">
+              <span><i class="dot income"></i>Ingresos cobrados</span>
+              <span><i class="dot expense"></i>Gastos</span>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="cashflow-chart" width="900" height="340"></canvas>
+            </div>
+          </article>
+
+          <article class="panel summary-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Atajos</p>
+                <h3>Registro rapido</h3>
+              </div>
+            </div>
+            <div class="quick-actions">
+              <button class="quick-action" data-prefill-type="ingreso">+ Nuevo ingreso</button>
+              <button class="quick-action" data-prefill-type="gasto">+ Nuevo gasto</button>
+              <button class="quick-action" data-view-jump="cuentas">Ver cobros pendientes</button>
+              <button class="quick-action" data-view-jump="historial">Abrir historial</button>
+            </div>
+
+            <div class="insights" id="insights"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="registro">
+        <article class="panel form-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Formulario</p>
+              <h3 id="form-title">Registrar movimiento</h3>
+            </div>
+          </div>
+
+          <form id="movement-form" class="movement-form">
+            <input type="hidden" id="movement-id">
+            <div class="field-grid">
+              <label>
+                Tipo
+                <select id="type" required>
+                  <option value="ingreso">Ingreso</option>
+                  <option value="gasto">Gasto</option>
+                </select>
+              </label>
+
+              <label>
+                Fecha
+                <input type="date" id="date" required>
+              </label>
+
+              <label>
+                Categoria
+                <input type="text" id="category" placeholder="Ej. Venta, nomina, suplidor" required>
+              </label>
+
+              <label>
+                Metodo de pago
+                <select id="paymentMethod" required>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Tarjeta">Tarjeta</option>
+                  <option value="Credito">Credito</option>
+                </select>
+              </label>
+
+              <label>
+                Monto
+                <input type="number" id="amount" min="0" step="0.01" placeholder="0.00" required>
+              </label>
+
+              <label>
+                Cliente
+                <input type="text" id="client" placeholder="Opcional">
+              </label>
+
+              <label>
+                Telefono
+                <input type="text" id="phone" placeholder="Opcional">
+              </label>
+
+              <label>
+                Fecha de cobro
+                <input type="date" id="dueDate">
+              </label>
+            </div>
+
+            <label>
+              Descripcion
+              <textarea id="description" rows="4" placeholder="Detalle del movimiento"></textarea>
+            </label>
+
+            <label class="toggle-row">
+              <input type="checkbox" id="isPaid" checked>
+              <span>Movimiento cobrado/pagado al momento</span>
+            </label>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-button">Guardar movimiento</button>
+              <button type="button" class="ghost-button" id="btn-reset-form">Limpiar formulario</button>
+            </div>
+          </form>
+        </article>
+      </section>
+
+      <section class="view" id="cuentas">
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Seguimiento</p>
+              <h3>Cuentas por cobrar</h3>
+            </div>
+          </div>
+          <div id="receivables-list" class="stack-list empty-state-host"></div>
+        </article>
+      </section>
+
+      <section class="view" id="historial">
+        <article class="panel">
+          <div class="panel-heading panel-heading-with-tools">
+            <div>
+              <p class="eyebrow">Registros</p>
+              <h3>Historial completo</h3>
+            </div>
+            <div class="history-tools">
+              <input type="search" id="search-input" placeholder="Buscar por descripcion, cliente o categoria">
+              <select id="filter-type">
+                <option value="todos">Todos</option>
+                <option value="ingreso">Ingresos</option>
+                <option value="gasto">Gastos</option>
+                <option value="pendiente">Por cobrar</option>
+              </select>
+            </div>
+          </div>
+          <div id="history-list" class="stack-list empty-state-host"></div>
+        </article>
+      </section>
+
+      <section class="view" id="margenes">
+        <article class="panel">
+          <div class="panel-heading panel-heading-with-tools">
+            <div>
+              <p class="eyebrow">Analisis anual</p>
+              <h3>Margenes de ganancias</h3>
+            </div>
+            <button class="primary-button" id="btn-generar-margenes" type="button">Generar margenes</button>
+          </div>
+
+          <div class="margin-shell">
+            <div>
+              <p class="eyebrow">Ano</p>
+              <div class="margin-year-strip" id="margin-year-strip"></div>
+            </div>
+
+            <div>
+              <p class="eyebrow">Meses del ano seleccionado</p>
+              <div class="month-folders" id="month-folders"></div>
+            </div>
+
+            <div class="margin-stats-grid">
+              <article class="margin-stat-card">
+                <p>Periodo activo</p>
+                <strong id="margin-period-label">2026 / Enero</strong>
+              </article>
+              <article class="margin-stat-card">
+                <p>Total vendido</p>
+                <strong id="margin-sales-value">$0.00</strong>
+              </article>
+              <article class="margin-stat-card">
+                <p>Ventas registradas</p>
+                <strong id="margin-count-value">0</strong>
+              </article>
+            </div>
+
+            <div class="margin-table-wrap">
+              <table class="margin-table">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Categoria</th>
+                    <th>Descripcion</th>
+                    <th>Metodo</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th>Cliente</th>
+                  </tr>
+                </thead>
+                <tbody id="margin-table-body"></tbody>
+              </table>
+            </div>
+
+            <div id="margin-empty-state" class="empty-state" hidden>
+              <h4>Sin ventas en este mes</h4>
+              <p>No hay ingresos registrados para el periodo seleccionado.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="view" id="configuracion">
+        <article class="panel">
+          <div>
+            <p class="eyebrow">Datos del negocio</p>
+            <h3>Personalizar panel</h3>
+            <form id="settings-form" class="settings-form">
+              <label>
+                Nombre del negocio
+                <input type="text" id="business-name" placeholder="Mi negocio">
+              </label>
+              <label>
+                Mensaje principal
+                <input type="text" id="business-tagline" placeholder="Control de ingresos y gastos">
+              </label>
+              <button type="submit" class="primary-button">Guardar ajustes</button>
+            </form>
+          </div>
+        </article>
+      </section>
+
+      <section class="view" id="admin">
+        <div class="dashboard-grid admin-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Accesos</p>
+                <h3>Crear usuarios</h3>
+              </div>
+            </div>
+
+            <form id="admin-user-form" class="settings-form">
+              <label>
+                Nombre completo
+                <input type="text" id="admin-name" placeholder="Ej. Maria Perez" required>
+              </label>
+              <label>
+                Usuario
+                <input type="text" id="admin-username" placeholder="Ej. mperez" required>
+              </label>
+              <label>
+                Contrasena
+                <input type="password" id="admin-password" placeholder="Minimo 8 caracteres" minlength="8" required>
+              </label>
+              <label>
+                Rol
+                <select id="admin-role" required>
+                  <option value="user">Usuario</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </label>
+              <p id="admin-feedback" class="form-feedback" hidden></p>
+              <button type="submit" class="primary-button">Crear usuario</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Equipo</p>
+                <h3>Usuarios registrados</h3>
+              </div>
+            </div>
+            <div id="users-list" class="stack-list empty-state-host"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="empty-state-template">
+    <div class="empty-state">
+      <h4>Sin datos todavia</h4>
+      <p>Agrega tu primer movimiento para empezar a ver el resumen del negocio.</p>
+    </div>
+  </template>
+
+  <dialog id="margin-analysis-modal" class="margin-modal">
+    <div class="margin-modal-card">
+      <div class="panel-heading panel-heading-with-tools">
+        <div>
+          <p class="eyebrow">Comparativo anual</p>
+          <h3>Velas japonesas por mes</h3>
+        </div>
+        <button class="ghost-button" id="btn-close-margin-modal" type="button">Cerrar</button>
+      </div>
+
+      <div class="margin-analysis-grid">
+        <article class="margin-note top">
+          <p class="eyebrow">Mejor mes</p>
+          <strong id="best-month-label">--</strong>
+          <span id="best-month-detail">Sin datos disponibles.</span>
+        </article>
+        <article class="margin-note bottom">
+          <p class="eyebrow">Peor mes</p>
+          <strong id="worst-month-label">--</strong>
+          <span id="worst-month-detail">Sin datos disponibles.</span>
+        </article>
+      </div>
+
+      <div class="chalk-board">
+        <canvas id="margin-candles-chart" width="920" height="380"></canvas>
+      </div>
+    </div>
+  </dialog>
+
+  <button id="wallet-assistant-fab" class="wallet-assistant-fab" type="button" aria-controls="wallet-assistant-panel" aria-expanded="false">
+    <span class="wallet-assistant-fab-icon">AI</span>
+    <span class="wallet-assistant-fab-label">Asistente Wallet</span>
+  </button>
+
+  <section id="wallet-assistant-panel" class="wallet-assistant-panel" aria-hidden="true">
+    <div class="wallet-assistant-shell">
+      <div class="wallet-assistant-head">
+        <div class="wallet-assistant-head-copy">
+          <span class="wallet-assistant-kicker">Copiloto financiero</span>
+          <strong>Asistente Wallet</strong>
+          <span class="wallet-assistant-status">Consulta el estado del negocio, navega por el sistema y recibe respuestas inteligentes con contexto de tu operacion.</span>
+        </div>
+        <div class="wallet-assistant-head-actions">
+          <button type="button" class="ghost-button wallet-assistant-icon-btn" id="wallet-assistant-minimize" aria-label="Minimizar asistente">-</button>
+          <button type="button" class="danger-button wallet-assistant-icon-btn" id="wallet-assistant-close" aria-label="Cerrar asistente">X</button>
+        </div>
+      </div>
+
+      <div class="wallet-assistant-body">
+        <div id="wallet-assistant-messages" class="wallet-assistant-messages"></div>
+        <div id="wallet-assistant-suggestions" class="wallet-assistant-suggestions"></div>
+      </div>
+
+      <div class="wallet-assistant-compose">
+        <input id="wallet-assistant-input" type="text" placeholder="Pregunta por balance, cobros o pide un analisis...">
+        <button type="button" class="primary-button" id="wallet-assistant-send">Enviar</button>
+      </div>
+      <div id="wallet-assistant-runtime-status" class="wallet-assistant-runtime-status"></div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

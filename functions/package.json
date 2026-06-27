@@ -1,0 +1,14 @@
+{
+  "name": "proyecto-wallet-functions",
+  "private": true,
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "node --check index.js"
+  },
+  "dependencies": {
+    "firebase-functions": "^6.6.0"
+  }
+}

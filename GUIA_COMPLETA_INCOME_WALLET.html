@@ -1,0 +1,1163 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Completa - Income Wallet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --bg-accent: #dbe7d8;
+      --surface: rgba(255, 255, 255, 0.74);
+      --surface-strong: #ffffff;
+      --surface-border: rgba(13, 27, 42, 0.08);
+      --text: #14213d;
+      --muted: #5f6b7a;
+      --income: #157f5b;
+      --expense: #bf4d28;
+      --receivable: #c58b00;
+      --balance: #1e6091;
+      --accent: #ef476f;
+      --shadow: 0 20px 45px rgba(20, 33, 61, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(239, 71, 111, 0.16), transparent 24%),
+        radial-gradient(circle at 90% 10%, rgba(21, 127, 91, 0.18), transparent 18%),
+        linear-gradient(135deg, var(--bg), #f8f5ef 46%, var(--bg-accent));
+      line-height: 1.6;
+    }
+
+    .global-shortcuts {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1201;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(280px, calc(100vw - 32px));
+    }
+
+    .global-shortcut {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-decoration: none;
+      text-align: center;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(20, 33, 61, 0.08);
+      box-shadow: 0 18px 35px rgba(20, 33, 61, 0.16);
+      backdrop-filter: blur(18px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .global-shortcut.primary {
+      color: white;
+      background: linear-gradient(135deg, #ef476f, #c44569);
+    }
+
+    .global-shortcut:hover,
+    .global-shortcut:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 40px rgba(20, 33, 61, 0.2);
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .brand-logo {
+      width: 210%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      object-position: left center;
+      display: block;
+      transform: translateX(-18%);
+    }
+
+    .brand-text h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      margin: 0;
+      background: linear-gradient(135deg, #14213d, #ef476f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-link {
+      padding: 10px 20px;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-link:hover {
+      background: rgba(20, 33, 61, 0.05);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      padding: 120px 30px 60px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, rgba(21, 127, 91, 0.1), rgba(239, 71, 111, 0.1));
+      border: 1px solid rgba(239, 71, 111, 0.2);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(48px, 6vw, 64px);
+      margin: 0 0 24px;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #14213d, #ef476f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: var(--muted);
+      margin: 0 0 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(32px, 4vw, 42px);
+      margin: 0 0 16px;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Design System */
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .design-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .design-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      margin: 0 0 16px;
+    }
+
+    .color-palette {
+      display: flex;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .color-swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Module Detail */
+    .module-section {
+      background: var(--surface-strong);
+      border-radius: var(--radius-xl);
+      padding: 60px;
+      margin: 60px 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .module-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      margin: 0 0 20px;
+    }
+
+    .module-content p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .feature-list li {
+      padding: 16px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .check-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #157f5b, #10b981);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .module-visual {
+      background: linear-gradient(135deg, rgba(20, 33, 61, 0.95), rgba(30, 96, 145, 0.88));
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      min-height: 400px;
+      color: white;
+    }
+
+    .mock-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .mock-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ef476f, #14213d);
+      border-radius: 10px;
+    }
+
+    .mock-title {
+      flex: 1;
+    }
+
+    .mock-title-line {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      width: 60%;
+    }
+
+    .mock-title-line.short {
+      width: 40%;
+    }
+
+    .mock-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .mock-stat {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .mock-stat-line {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      width: 70%;
+    }
+
+    .mock-stat-line.short {
+      width: 40%;
+    }
+
+    .mock-chart {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* Architecture */
+    .architecture-diagram {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      margin: 40px 0;
+    }
+
+    .arch-layer {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .arch-layer:last-child {
+      margin-bottom: 0;
+    }
+
+    .arch-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #14213d, #ef476f);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+
+    .arch-content h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      margin: 0 0 4px;
+    }
+
+    .arch-content p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Technical Specs */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .spec-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .spec-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      margin: 0 0 12px;
+      color: var(--accent);
+    }
+
+    .spec-card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Usage Guide */
+    .step-guide {
+      background: var(--surface-strong);
+      border-radius: var(--radius-xl);
+      padding: 60px;
+      margin: 60px 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-timeline {
+      position: relative;
+      margin-top: 40px;
+    }
+
+    .step-timeline::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--income));
+    }
+
+    .step-item {
+      position: relative;
+      padding-left: 60px;
+      margin-bottom: 40px;
+    }
+
+    .step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-number {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #14213d, #ef476f);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .step-content h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      margin: 0 0 8px;
+    }
+
+    .step-content p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--surface-strong);
+      padding: 60px 30px;
+      border-top: 1px solid var(--surface-border);
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      margin: 0 0 16px;
+    }
+
+    .footer-content p {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0 0 30px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 100px 20px 40px;
+      }
+
+      .section {
+        padding: 60px 20px;
+      }
+
+      .module-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .module-section {
+        padding: 40px 20px;
+        margin: 40px 20px;
+      }
+
+      .step-guide {
+        padding: 40px 20px;
+        margin: 40px 20px;
+      }
+
+      .step-timeline::before {
+        left: 20px;
+      }
+
+      .step-item {
+        padding-left: 50px;
+      }
+
+      .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="global-shortcuts" aria-label="Accesos rapidos de Income Wallet">
+    <a class="global-shortcut primary" href="./Conexion/index.html">Abrir Income Wallet</a>
+    <a class="global-shortcut" href="./GUIA_COMPLETA_INCOME_WALLET.html">Abrir guia completa</a>
+    <a class="global-shortcut" href="./TUTORIAL_AUDIOVISUAL_INCOME_WALLET.html">Abrir tutorial</a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-text">
+        <h1>Income Wallet</h1>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#overview" class="nav-link">Resumen</a>
+      <a href="#modules" class="nav-link">Módulos</a>
+      <a href="#usage" class="nav-link">Uso</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="overview">
+    <div class="hero-content">
+      <span class="hero-badge">📘 Documentación Oficial v0.5</span>
+      <h1>Guía Completa de Income Wallet</h1>
+      <p>Descubre todo sobre el sistema de control financiero moderno: desde su diseño visual hasta cada funcionalidad técnica y de usuario.</p>
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-tag">RESUMEN</p>
+      <h2 class="section-title">¿Qué es Income Wallet?</h2>
+      <p class="section-subtitle">Un sistema integral de control financiero diseñado para negocios modernos.</p>
+    </div>
+
+    <div class="design-grid">
+      <div class="design-card">
+        <h3>🎯 Propósito</h3>
+        <p>Income Wallet es una aplicación web para gestionar ingresos, gastos y cuentas por cobrar con análisis avanzado y visualización de datos en tiempo real.</p>
+      </div>
+
+      <div class="design-card">
+        <h3>👥 Público Objetivo</h3>
+        <p>Pequeñas y medianas empresas, restaurantes, tiendas de retail, profesionales independientes y cualquier negocio que necesite control financiero.</p>
+      </div>
+
+      <div class="design-card">
+        <h3>⚡ Ventajas Principales</h3>
+        <p>Interfaz moderna, persistencia local, sin dependencia de nube, análisis de márgenes, exportación de datos y migración fácil desde otros sistemas.</p>
+      </div>
+    </div>
+  </section>
+  <!-- Modules Section -->
+  <section class="section" id="modules">
+    <div class="section-header">
+      <p class="section-tag">MÓDULOS</p>
+      <h2 class="section-title">Funcionalidades del Sistema</h2>
+      <p class="section-subtitle">Cada componente de Income Wallet explicado en detalle.</p>
+    </div>
+
+    <!-- Module 1: Dashboard -->
+    <div class="module-section">
+      <div class="module-grid">
+        <div class="module-content">
+          <h3>1. Dashboard - Resumen</h3>
+          <p>El centro de control de Income Wallet donde se presenta una visión general del estado financiero actual del negocio.</p>
+          <p><strong>Funcionalidades principales:</strong></p>
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">📊</span>
+              <span><strong>4 KPIs principales:</strong> Ingresos cobrados, Gastos totales, Cuentas por cobrar, Balance neto</span>
+            </li>
+            <li>
+              <span class="check-icon">📈</span>
+              <span><strong>Gráfico de flujo de caja:</strong> Visualización de los últimos 7 días con ingresos y gastos</span>
+            </li>
+            <li>
+              <span class="check-icon">⚡</span>
+              <span><strong>Atajos rápidos:</strong> Botones para acciones comunes (nuevo ingreso, gasto, ver cobros)</span>
+            </li>
+            <li>
+              <span class="check-icon">💡</span>
+              <span><strong>Insights automáticos:</strong> Análisis inteligente del estado financiero actual</span>
+            </li>
+            <li>
+              <span class="check-icon">📱</span>
+              <span><strong>Widget lateral:</strong> Balance actual y cobros pendientes siempre visibles</span>
+            </li>
+          </ul>
+        </div>
+        <div class="module-visual">
+          <div class="mock-header">
+            <div class="mock-logo"></div>
+            <div class="mock-title">
+              <div class="mock-title-line"></div>
+              <div class="mock-title-line short"></div>
+            </div>
+          </div>
+          <div class="mock-stats">
+            <div class="mock-stat" style="border-top: 3px solid #157f5b;">
+              <div class="mock-stat-line"></div>
+              <div class="mock-stat-line short"></div>
+            </div>
+            <div class="mock-stat" style="border-top: 3px solid #bf4d28;">
+              <div class="mock-stat-line"></div>
+              <div class="mock-stat-line short"></div>
+            </div>
+            <div class="mock-stat" style="border-top: 3px solid #c58b00;">
+              <div class="mock-stat-line"></div>
+              <div class="mock-stat-line short"></div>
+            </div>
+            <div class="mock-stat" style="border-top: 3px solid #1e6091;">
+              <div class="mock-stat-line"></div>
+              <div class="mock-stat-line short"></div>
+            </div>
+          </div>
+          <div class="mock-chart">
+            📊 Gráfico de Flujo de Caja (7 días)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 2: Registro -->
+    <div class="module-section">
+      <div class="module-grid">
+        <div class="module-content">
+          <h3>2. Registro de Movimientos</h3>
+          <p>Formulario inteligente para capturar nuevos ingresos y gastos con toda la información necesaria.</p>
+          <p><strong>Campos del formulario:</strong></p>
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">💰</span>
+              <span><strong>Tipo:</strong> Ingreso o Gasto (selector)</span>
+            </li>
+            <li>
+              <span class="check-icon">📅</span>
+              <span><strong>Fecha:</strong> Selector de fecha (default: hoy)</span>
+            </li>
+            <li>
+              <span class="check-icon"></span>
+              <span><strong>Categoría:</strong> Texto libre para clasificación personalizada</span>
+            </li>
+            <li>
+              <span class="check-icon">💳</span>
+              <span><strong>Método de pago:</strong> Efectivo, Transferencia, Tarjeta, Crédito</span>
+            </li>
+            <li>
+              <span class="check-icon">💵</span>
+              <span><strong>Monto:</strong> Numérico con 2 decimales</span>
+            </li>
+            <li>
+              <span class="check-icon">👤</span>
+              <span><strong>Cliente:</strong> Nombre opcional (para seguimiento)</span>
+            </li>
+            <li>
+              <span class="check-icon">📞</span>
+              <span><strong>Teléfono:</strong> Contacto opcional del cliente</span>
+            </li>
+            <li>
+              <span class="check-icon"></span>
+              <span><strong>Descripción:</strong> Detalles adicionales del movimiento</span>
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span><strong>Cobrado/Pagado:</strong> Checkbox para estado inmediato</span>
+            </li>
+          </ul>
+        </div>
+        <div class="module-visual">
+          <div class="mock-header">
+            <div class="mock-logo"></div>
+            <div class="mock-title">
+              <div class="mock-title-line"></div>
+              <div class="mock-title-line short"></div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px;">
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 4px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 3: Cuentas por Cobrar -->
+    <div class="module-section">
+      <div class="module-grid">
+        <div class="module-content">
+          <h3>3. Cuentas por Cobrar</h3>
+          <p>Gestión especializada para ventas a crédito con seguimiento de vencimientos y alertas visuales.</p>
+          <p><strong>Funcionalidades:</strong></p>
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">📋</span>
+              <span><strong>Lista completa:</strong> Todas las cuentas pendientes con detalles</span>
+            </li>
+            <li>
+              <span class="check-icon">👤</span>
+              <span><strong>Información del cliente:</strong> Nombre y teléfono para contacto</span>
+            </li>
+            <li>
+              <span class="check-icon">📅</span>
+              <span><strong>Fecha de vencimiento:</strong> Claramente visible en cada cuenta</span>
+            </li>
+            <li>
+              <span class="check-icon">🔔</span>
+              <span><strong>Alertas visuales:</strong> Cuentas próximas a vencer destacadas</span>
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span><strong>Marcar como cobrado:</strong> Acción rápida para cerrar cuentas</span>
+            </li>
+            <li>
+              <span class="check-icon">📊</span>
+              <span><strong>Total pendiente:</strong> Suma de todas las cuentas por cobrar</span>
+            </li>
+          </ul>
+        </div>
+        <div class="module-visual">
+          <div class="mock-header">
+            <div class="mock-logo"></div>
+            <div class="mock-title">
+              <div class="mock-title-line"></div>
+              <div class="mock-title-line short"></div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 16px;">
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #c58b00;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #c58b00;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #ef476f;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; border-left: 4px solid #157f5b;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 4: Historial -->
+    <div class="module-section">
+      <div class="module-grid">
+        <div class="module-content">
+          <h3>4. Historial de Movimientos</h3>
+          <p>Registro completo de todas las transacciones con capacidades de búsqueda, filtrado y edición.</p>
+          <p><strong>Funcionalidades:</strong></p>
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon"></span>
+              <span><strong>Búsqueda:</strong> Por texto, categoría o cliente</span>
+            </li>
+            <li>
+              <span class="check-icon">🎯</span>
+              <span><strong>Filtrado:</strong> Por tipo (ingresos/gastos)</span>
+            </li>
+            <li>
+              <span class="check-icon">📊</span>
+              <span><strong>Vista detallada:</strong> Información completa de cada movimiento</span>
+            </li>
+            <li>
+              <span class="check-icon"></span>
+              <span><strong>Edición:</strong> Modificar registros existentes</span>
+            </li>
+            <li>
+              <span class="check-icon">🗑</span>
+              <span><strong>Eliminación:</strong> Remover movimientos erróneos</span>
+            </li>
+            <li>
+              <span class="check-icon">📅</span>
+              <span><strong>Ordenamiento:</strong> Por fecha (más reciente primero)</span>
+            </li>
+          </ul>
+        </div>
+        <div class="module-visual">
+          <div class="mock-header">
+            <div class="mock-logo"></div>
+            <div class="mock-title">
+              <div class="mock-title-line"></div>
+              <div class="mock-title-line short"></div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 16px;">
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #157f5b;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #bf4d28;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #157f5b;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #bf4d28;"></div>
+            <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px; border-left: 4px solid #157f5b;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 5: Análisis de Márgenes -->
+    <div class="module-section">
+      <div class="module-grid">
+        <div class="module-content">
+          <h3>5. Análisis de Márgenes</h3>
+          <p>Herramienta avanzada para analizar el rendimiento del negocio por períodos de tiempo.</p>
+          <p><strong>Funcionalidades:</strong></p>
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">📊</span>
+              <span><strong>Selección de período:</strong> Año y mes específicos</span>
+            </li>
+            <li>
+              <span class="check-icon">📈</span>
+              <span><strong>Mejor mes:</strong> Identificación automática del período más productivo</span>
+            </li>
+            <li>
+              <span class="check-icon">📉</span>
+              <span><strong>Peor mes:</strong> Detección de períodos críticos</span>
+            </li>
+            <li>
+              <span class="check-icon">💰</span>
+              <span><strong>Cálculo de márgenes:</strong> Rentabilidad por período</span>
+            </li>
+            <li>
+              <span class="check-icon">📋</span>
+              <span><strong>Reporte detallado:</strong> Tabla con todos los movimientos del período</span>
+            </li>
+            <li>
+              <span class="check-icon">🎯</span>
+              <span><strong>Insights:</strong> Conclusiones automáticas para toma de decisiones</span>
+            </li>
+          </ul>
+        </div>
+        <div class="module-visual">
+          <div class="mock-header">
+            <div class="mock-logo"></div>
+            <div class="mock-title">
+              <div class="mock-title-line"></div>
+              <div class="mock-title-line short"></div>
+            </div>
+          </div>
+          <div class="mock-chart">
+            📊 Análisis de Tendencias y Márgenes
+          </div>
+          <div class="mock-stats" style="margin-top: 20px;">
+            <div class="mock-stat">
+              <div class="mock-stat-line"></div>
+              <div class="mock-stat-line short"></div>
+            </div>
+            <div class="mock-stat">
+              <div class="mock-stat-line"></div>
+              <div class="mock-stat-line short"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 6: Configuración -->
+    <div class="module-section">
+      <div class="module-grid">
+        <div class="module-content">
+          <h3>6. Configuración</h3>
+          <p>Panel de administración para personalizar el sistema y gestionar datos.</p>
+          <p><strong>Funcionalidades:</strong></p>
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon"></span>
+              <span><strong>Nombre del negocio:</strong> Personalización de la marca</span>
+            </li>
+            <li>
+              <span class="check-icon">💾</span>
+              <span><strong>Exportar JSON:</strong> Backup completo de datos</span>
+            </li>
+            <li>
+              <span class="check-icon">📥</span>
+              <span><strong>Importar JSON:</strong> Restauración de backup</span>
+            </li>
+            <li>
+              <span class="check-icon">🔄</span>
+              <span><strong>Migración desde Wally:</strong> Importación desde sistemas anteriores</span>
+            </li>
+            <li>
+              <span class="check-icon">🧪</span>
+              <span><strong>Datos de prueba:</strong> Generar datos demo para testing</span>
+            </li>
+            <li>
+              <span class="check-icon">🗑</span>
+              <span><strong>Reset de datos:</strong> Limpiar todos los datos del sistema</span>
+            </li>
+          </ul>
+        </div>
+        <div class="module-visual">
+          <div class="mock-header">
+            <div class="mock-logo"></div>
+            <div class="mock-title">
+              <div class="mock-title-line"></div>
+              <div class="mock-title-line short"></div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px;">
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 12px;"></div>
+            <div style="height: 12px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 20px;"></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px;"></div>
+              <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px;"></div>
+              <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px;"></div>
+              <div style="height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 6px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Usage Guide Section -->
+  <section class="section" id="usage">
+    <div class="section-header">
+      <p class="section-tag">GUA DE USO</p>
+      <h2 class="section-title">Cómo Usar Income Wallet</h2>
+      <p class="section-subtitle">Instrucciones paso a paso para aprovechar al máximo el sistema.</p>
+    </div>
+
+    <div class="step-guide">
+      <div class="step-timeline">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Instalación Inicial</h4>
+            <p>Abre el archivo index.html en tu navegador moderno. No requiere instalación ni servidor. PulsaFlow funciona completamente en el cliente.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Configuración del Negocio</h4>
+            <p>Ve a la sección Configuración y establece el nombre de tu negocio. Personaliza la etiqueta según tus preferencias.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Registrar Primer Movimiento</h4>
+            <p>Ve a "Nuevo movimiento", selecciona el tipo (ingreso/gasto), completa los campos y guarda. El movimiento aparecerá inmediatamente en el Dashboard.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Revisar el Dashboard</h4>
+            <p>Observa cómo los KPIs se actualizan automáticamente. El gráfico de flujo de caja mostrará la tendencia de tus movimientos.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h4>Gestionar Cuentas por Cobrar</h4>
+            <p>Para ventas a crédito, desmarca "cobrado al momento" y establece una fecha de cobro. La cuenta aparecerá en la sección "Por cobrar".</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h4>Analizar Resultados</h4>
+            <p>Usa el módulo de "Análisis de márgenes" para identificar tus mejores meses y tomar decisiones estratégicas basadas en datos.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">7</div>
+          <div class="step-content">
+            <h4>Backup Regular</h4>
+            <p>En Configuración, usa "Exportar JSON" regularmente para mantener copias de seguridad de tus datos importantes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <h3>Guía Completa de Income Wallet v0.5</h3>
+      <p>Documentación oficial del sistema de control financiero moderno</p>
+      <div class="footer-links">
+        <a href="#overview">Resumen</a>
+        <a href="#modules">Módulos</a>
+        <a href="#usage">Uso</a>
+      </div>
+      <p style="margin-top: 30px; font-size: 14px;">© 2026 Income Wallet. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
+
+

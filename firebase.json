@@ -1,0 +1,32 @@
+{
+  "functions": {
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "Conexion",
+    "ignore": [
+      ".git/**",
+      "**/.git/**",
+      "firebase.json",
+      ".firebaserc",
+      ".firebaseignore",
+      ".gitignore",
+      "firebase-debug.log",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/assistant",
+        "function": "assistantChat"
+      },
+      {
+        "source": "/api/capabilities",
+        "function": "assistantCapabilities"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

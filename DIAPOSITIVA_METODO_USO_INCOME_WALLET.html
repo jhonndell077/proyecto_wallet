@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diapositiva Metodo de Uso | Income Wallet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --bg-accent: #dbe7d8;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: #ffffff;
+      --surface-border: rgba(13, 27, 42, 0.08);
+      --text: #14213d;
+      --muted: #5f6b7a;
+      --income: #157f5b;
+      --expense: #bf4d28;
+      --receivable: #c58b00;
+      --balance: #1e6091;
+      --accent: #ef476f;
+      --shadow: 0 24px 54px rgba(20, 33, 61, 0.16);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(239, 71, 111, 0.18), transparent 22%),
+        radial-gradient(circle at 90% 10%, rgba(21, 127, 91, 0.18), transparent 18%),
+        linear-gradient(135deg, var(--bg), #f8f5ef 44%, var(--bg-accent));
+    }
+
+    .global-shortcuts {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1201;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(280px, calc(100vw - 32px));
+    }
+
+    .global-shortcut {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-decoration: none;
+      text-align: center;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(20, 33, 61, 0.08);
+      box-shadow: 0 18px 35px rgba(20, 33, 61, 0.16);
+      backdrop-filter: blur(18px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .global-shortcut.primary {
+      color: white;
+      background: linear-gradient(135deg, #ef476f, #c44569);
+    }
+
+    .global-shortcut:hover,
+    .global-shortcut:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 40px rgba(20, 33, 61, 0.2);
+    }
+
+    .slide-shell {
+      min-height: 100vh;
+      padding: 28px;
+      display: grid;
+      place-items: center;
+    }
+
+    .slide {
+      width: min(1400px, 100%);
+      min-height: 780px;
+      padding: 34px;
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.66);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 24px;
+    }
+
+    .topbar,
+    .hero,
+    .guide-grid,
+    .footer-actions,
+    .module-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-mark {
+      width: 96px;
+      height: 96px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .brand-logo {
+      width: 210%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      object-position: left center;
+      display: block;
+      transform: translateX(-18%);
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    strong {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .hero {
+      align-items: stretch;
+      padding: 28px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(20, 33, 61, 0.96), rgba(30, 96, 145, 0.92));
+      color: white;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+    }
+
+    .hero-copy h2 {
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.02;
+      margin-bottom: 14px;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .hero-side {
+      min-width: 320px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .hero-chip,
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .hero-chip {
+      padding: 12px 14px;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      align-items: stretch;
+    }
+
+    .panel,
+    .module-card,
+    .stat-card,
+    .shortcut-card {
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      padding: 24px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(20, 33, 61, 0.08);
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ef476f, #c44569);
+    }
+
+    .step p {
+      margin: 8px 0 0;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .dashboard-preview {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      border-top: 5px solid transparent;
+    }
+
+    .stat-card.income { border-top-color: var(--income); }
+    .stat-card.expense { border-top-color: var(--expense); }
+    .stat-card.receivable { border-top-color: var(--receivable); }
+    .stat-card.balance { border-top-color: var(--balance); }
+
+    .stat-card p,
+    .stat-card span {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .stat-card strong {
+      display: block;
+      margin: 10px 0 6px;
+      font-size: 30px;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .module-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .module-card p {
+      margin: 8px 0 0;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .module-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #14213d, #ef476f);
+      box-shadow: 0 0 0 8px rgba(239, 71, 111, 0.1);
+    }
+
+    .shortcut-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .shortcut-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .shortcut-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .footer-actions {
+      flex-wrap: wrap;
+    }
+
+    .action-link {
+      padding: 14px 18px;
+      color: var(--text);
+      border: 1px solid rgba(20, 33, 61, 0.08);
+      background: rgba(255, 255, 255, 0.88);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .action-link.primary {
+      color: white;
+      background: linear-gradient(135deg, #ef476f, #c44569);
+      box-shadow: 0 16px 26px rgba(196, 69, 105, 0.25);
+    }
+
+    .action-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(20, 33, 61, 0.14);
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 1080px) {
+      .slide {
+        min-height: auto;
+      }
+
+      .hero,
+      .guide-grid,
+      .modules,
+      .shortcut-row,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .topbar,
+      .footer-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-side {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="global-shortcuts" aria-label="Accesos rapidos de Income Wallet">
+    <a class="global-shortcut primary" href="./Conexion/index.html">Abrir Income Wallet</a>
+    <a class="global-shortcut" href="./GUIA_COMPLETA_INCOME_WALLET.html">Abrir guia completa</a>
+    <a class="global-shortcut" href="./TUTORIAL_AUDIOVISUAL_INCOME_WALLET.html">Abrir tutorial</a>
+  </div>
+
+  <main class="slide-shell">
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand">
+          <div>
+            <h1>Income Wallet</h1>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Base documental</p>
+          <strong>Guia Completa + Tutorial Audiovisual + Guia Tecnica</strong>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Metodo de uso enlazado al sistema</p>
+          <h2>Usa Income Wallet en 4 movimientos claros y medibles.</h2>
+          <p>Esta diapositiva resume el flujo operativo descrito en la documentacion oficial de Income Wallet: acceso al panel, registro de movimientos, seguimiento de cobros y analisis para tomar decisiones.</p>
+        </div>
+
+        <div class="hero-side">
+          <span class="hero-chip">1. Resumen con KPIs</span>
+          <span class="hero-chip">2. Nuevo movimiento</span>
+          <span class="hero-chip">3. Por cobrar e historial</span>
+          <span class="hero-chip">4. Margenes y configuracion</span>
+        </div>
+      </section>
+
+      <section class="guide-grid">
+        <article class="panel">
+          <p class="eyebrow">Flujo recomendado</p>
+          <h3>Metodo de uso de Income Wallet</h3>
+
+          <div class="steps">
+            <article class="step">
+              <div class="step-number">1</div>
+              <div>
+                <strong>Abre el panel y valida el estado del negocio</strong>
+                <p>Inicia sesion, entra a <strong>Resumen</strong> y revisa Ingresos cobrados, Gastos, Por cobrar y Balance neto antes de registrar nuevas operaciones.</p>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">2</div>
+              <div>
+                <strong>Registra cada ingreso o gasto al momento</strong>
+                <p>En <strong>Nuevo movimiento</strong> selecciona el tipo, fecha, categoria, metodo de pago, monto y descripcion. Si es a credito, desmarca el cobro inmediato y define fecha de cobro.</p>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">3</div>
+              <div>
+                <strong>Da seguimiento a pendientes y corrige rapido</strong>
+                <p>Usa <strong>Por cobrar</strong> para monitorear clientes pendientes y <strong>Historial</strong> para buscar, filtrar, editar o marcar como cobrado sin salir del flujo operativo.</p>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">4</div>
+              <div>
+                <strong>Analiza, ajusta y respalda</strong>
+                <p>Consulta <strong>Margenes</strong> para leer el rendimiento por periodo y entra a <strong>Configuracion</strong> o <strong>Administrador</strong> para personalizar el negocio, gestionar accesos y mantener control del sistema.</p>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="panel dashboard-preview">
+          <div>
+            <p class="eyebrow">Mapa del tablero</p>
+            <h3>Puntos de control dentro de Income Wallet</h3>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card income">
+              <p>Ingreso</p>
+              <strong>Registrar</strong>
+              <span>Venta cobrada o pendiente</span>
+            </article>
+            <article class="stat-card expense">
+              <p>Gasto</p>
+              <strong>Controlar</strong>
+              <span>Salida con categoria y metodo</span>
+            </article>
+            <article class="stat-card receivable">
+              <p>Por cobrar</p>
+              <strong>Seguir</strong>
+              <span>Cliente, fecha y pendiente</span>
+            </article>
+            <article class="stat-card balance">
+              <p>Balance</p>
+              <strong>Decidir</strong>
+              <span>Ingresos cobrados menos gastos</span>
+            </article>
+          </div>
+
+          <div>
+            <p class="eyebrow">Modulos enlazados</p>
+            <div class="modules">
+              <article class="module-card">
+                <div class="module-card-head">
+                  <span class="module-dot"></span>
+                  <strong>Resumen</strong>
+                </div>
+                <p>Vista general con KPIs, flujo diario y accesos directos.</p>
+              </article>
+
+              <article class="module-card">
+                <div class="module-card-head">
+                  <span class="module-dot"></span>
+                  <strong>Nuevo movimiento</strong>
+                </div>
+                <p>Formulario operativo para ingresos, gastos y creditos.</p>
+              </article>
+
+              <article class="module-card">
+                <div class="module-card-head">
+                  <span class="module-dot"></span>
+                  <strong>Por cobrar</strong>
+                </div>
+                <p>Seguimiento de cobros pendientes con accion inmediata.</p>
+              </article>
+
+              <article class="module-card">
+                <div class="module-card-head">
+                  <span class="module-dot"></span>
+                  <strong>Historial</strong>
+                </div>
+                <p>Busqueda, filtros y correccion de movimientos registrados.</p>
+              </article>
+
+              <article class="module-card">
+                <div class="module-card-head">
+                  <span class="module-dot"></span>
+                  <strong>Margenes</strong>
+                </div>
+                <p>Lectura de ventas por mes para medir rendimiento real.</p>
+              </article>
+
+              <article class="module-card">
+                <div class="module-card-head">
+                  <span class="module-dot"></span>
+                  <strong>Administrador</strong>
+                </div>
+                <p>Control de accesos con usuario y contrasena para el equipo.</p>
+              </article>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer-actions">
+        <div>
+          <p class="eyebrow">Enlaces directos</p>
+          <div class="shortcut-row">
+            <a class="action-link primary" href="./Conexion/index.html">Abrir Income Wallet</a>
+            <a class="action-link" href="./GUIA_COMPLETA_INCOME_WALLET.html">Abrir guia completa</a>
+            <a class="action-link" href="./TUTORIAL_AUDIOVISUAL_INCOME_WALLET.html">Abrir tutorial</a>
+          </div>
+        </div>
+
+        <p class="footer-note">Sintesis construida a partir de la documentacion de Income Wallet disponible en esta carpeta el 27 de junio de 2026.</p>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
