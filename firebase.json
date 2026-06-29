@@ -9,6 +9,7 @@
       ".git/**",
       "**/.git/**",
       "firebase.json",
+      "**/firebase.json",
       ".firebaserc",
       ".firebaseignore",
       ".gitignore",
